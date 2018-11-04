@@ -123,20 +123,119 @@ class BST
         count(first->left);
         count(first->right);
     }
-    void mirror_image(node* first)
+    void  mirror_image(node* first)
     {
 
         if(first==NULL)
             return ;
         if(first!=NULL)
         {
-            mirror_image(first->left);
+           mirror_image(first->left);
             mirror_image(first->right);
-            cout<<"\t"<<first->info;
+
             node* t = first->left;
             first->left = first->right;
             first->right = t;
 
+        }
+
+
+    }
+
+    void del(int x)
+    {
+        node* p = top;
+        node* q = NULL;
+        node* t = NULL;
+        if(p==NULL)
+        {
+            return ;
+        }
+        while(p!=NULL)
+        {
+            if(p->info==x)
+            {
+                break;
+            }
+            else if(p->info>x)
+            {
+                p = p->left;
+            }
+            else
+            {
+                p = p->right;
+            }
+            q = p;
+        }
+        if(p==NULL)
+        {
+            cout<<"\nElement Not Found";
+            return;
+        }
+        if(p->left!=NULL&&p->right!=NULL)
+        {
+            q = p;
+            t = p->left;
+            while(t->right!=NULL)
+            {
+                q = t;
+                t = t->right;
+            }
+            p->info = t->info;
+            p = t;
+
+        }
+        if(q!=NULL)
+        {
+            if(p->left==NULL&&p->right==NULL)
+            {
+                if(q->right==p)
+                {
+                    q->right=NULL;
+                }
+                else
+                {
+                    q->left = NULL;
+                }
+            }
+            else if(p->left!=NULL)
+            {
+                if(q->right == p)
+                {
+                    q->right = p->left;
+                }
+                else
+                {
+                    q->left = p->left;
+                }
+            }
+            else
+            {
+                if(q->right == p)
+                {
+                    q->right = p->right;
+                }
+                else
+                {
+                    q->left = p->right;
+                }
+
+            }
+        }
+        else
+        {
+            if(p->left==NULL&&p->right==NULL)
+            {
+                top = NULL;
+            }
+            else if( p->left!=NULL)
+            {
+                top = p->left;
+            }
+            else
+            {
+                top = p->right;
+            }
         }
 
 
@@ -158,6 +257,7 @@ int main()
         cout<<"\n6.height of tree";
         cout<<"\n7.count";
         cout<<"\n8.Mirror Image";
+        cout<<"\n9.Delete by Copying";
         cout<<"\nEnter your choice";
         int ch;
         cin>>ch;
@@ -199,6 +299,13 @@ int main()
         else if(ch==8)
         {
             tree.mirror_image(tree.top);
+        }
+        else if(ch==9)
+        {
+            cout<<"\nEnter the element to delete";
+            int x;
+            cin>>x;
+            tree.del(x);
         }
         else
         {
